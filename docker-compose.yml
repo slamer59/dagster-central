@@ -36,7 +36,7 @@ services:
       - docker_example_network
     volumes:
       - ${PWD}/workspaces/:/workspaces/
-  
+      - /var/run/docker.sock:/var/run/docker.sock  
   docker_example_pipelines:
     build:
       context: ./workspaces/local_repo
@@ -129,7 +129,8 @@ services:
     depends_on:
       - docker_example_postgresql
       - docker_example_pipelines
-
+    restart: always
+# Auto reload ? https://github.com/apogiatzis/docker-compose-livereloader
   # This service runs the dagster-daemon process, which is responsible for taking runs
   # off of the queue and launching them, as well as creating runs from schedules or sensors.
   docker_example_daemon:

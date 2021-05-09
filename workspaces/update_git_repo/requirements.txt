@@ -3,3 +3,4 @@ dagster-postgres
 dagster-docker
 python-dotenv
 gitpython
+docker

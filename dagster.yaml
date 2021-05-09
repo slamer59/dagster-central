@@ -16,11 +16,14 @@ run_launcher:
       - DAGSTER_POSTGRES_DB
     network: docker_example_network
     container_kwargs:
+# https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
       volumes:
         "/media/thomas/DATA/Developpments/dagster-playground/dagster-central/workspaces":
           bind: /workspaces
-#        repo.py:
-#          bind: /opt/dagster/app/
+        "/var/run/docker.sock":
+          bind:
+            "/var/run/docker.sock"
+        
 
 run_storage:
   module: dagster_postgres.run_storage
