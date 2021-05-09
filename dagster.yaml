@@ -23,6 +23,8 @@ run_launcher:
         "/var/run/docker.sock":
           bind:
             "/var/run/docker.sock"
+        "/media/thomas/DATA/Developpments/dagster-playground/dagster-central/workspace.yaml":
+          bind: "/workspace.yaml"
         
 
 run_storage:

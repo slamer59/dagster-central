@@ -84,7 +84,7 @@ def create_docker_images(context, list_of_repo):
                 build_opts = {
                     "path": repo,
                     "dockerfile": dockerfile,
-                    "tag": repo.split("/")[-1]+":auto",
+                    "tag": repo.split("/")[-1] + ":auto",
                 }
                 context.log.info("Build options: ")
                 for k, v in build_opts.items():
@@ -104,11 +104,67 @@ def create_docker_images(context, list_of_repo):
     # )
 
 
+@solid
+def create_workspace(context, list_of_repo):
+    import yaml
+    import shutil
+    import time
+
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+
+    wk_filename = "/workspace.yaml"
+    wk_old_filename = "/workspaces/workspace-%s.yaml" % timestr
+    wk_new_filename = "/workspaces/workspace-new.yaml"
+
+    context.log.info("Copy workspace: %s" % wk_old_filename)
+    shutil.copy(wk_filename, wk_old_filename)
+
+    context.log.info("Create new workspace:")
+    list_configs = []
+
+    for idx, val in enumerate(list_of_repo):
+        conf = {
+            "host": val.split("/")[-1],
+            "port": 4000 + idx,
+            "location_name": val.split("/")[-1].replace("-", "_"),
+        }
+        list_configs.append({"grpc_server": conf})
+        for k, v in conf.items():
+            context.log.info(" - %s: %s" % (k, v))
+
+    config = {"load_from": list_configs}
+
+    with open(wk_new_filename, "w") as yml:
+        yaml.dump(config, yml)
+
+    return True
+
+
+@solid
+def restart_dagit(context,_):
+    client = docker.from_env()
+    wk_filename = "/workspace.yaml"
+    wk_new_filename = "/workspaces/workspace-new.yaml"
+
+    for container in client.containers.list():
+        name = container.name
+        if "dagit" in name:
+            context.log.info("Stop: %s" % name)
+            client.api.stop(name)
+            shutil.move(wk_new_filename, wk_filename)
+            context.log.info("Start: %s" % name)
+            client.api.start(name)
+    return True
+
+
 @pipeline(
     preset_defs=[PresetDefinition.from_files("dev", config_files=["git_urls.yaml"],)]
 )
 def update_git_repo_pipeline():
-    create_docker_images(check_git_status())
+    git_status = check_git_status()
+    create_docker_images(git_status)
+    restart_dagit(create_workspace(git_status))
+
 
 
 @schedule(

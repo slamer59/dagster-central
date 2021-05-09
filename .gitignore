@@ -71,3 +71,4 @@ target/
 .mypy_cache/
 # Keep local_repo for example
 !workspaces/local_repo
+!workspaces/update_git_repo
