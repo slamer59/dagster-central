@@ -1,19 +1,18 @@
 load_from:
   # Each entry here corresponds to a service in the docker-compose file that exposes pipelines.
   - grpc_server:
-      host: docker_example_pipelines
+      host: docker_update_git_repo
       port: 4000
+      location_name: "update_git_repo"
+  - grpc_server:
+      host: docker_example_pipelines
+      port: 4001
       location_name: "example_pipelines_local"
   - grpc_server:
       host: docker_example_pipelines_user_code
-      port: 4001
+      port: 4002
       location_name: "example_pipelines_user_code"
   - grpc_server:
       host: docker_example_pipelines_from_dagster_user_code
-      port: 4002
+      port: 4003
       location_name: "example_pipelines_from_dagster_user_code"
-
-#  - python_file:
-#      relative_path: workspaces/local_repo/repo.py
-#      location_name: local_code
-#      working_directory: ./

@@ -1,0 +1,37 @@
+FROM python:3.7-slim
+
+# Checkout and install dagster libraries needed to run the gRPC server
+# exposing your repository to dagit and dagster-daemon, and to load the DagsterInstance
+RUN apt-get update -qq \
+  && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+      ca-certificates \
+      git \
+  && apt-get autoclean && apt-get clean && apt-get -y autoremove \
+  && update-ca-certificates
+
+COPY requirements.txt /
+RUN pip install -r requirements.txt
+
+# Set $DAGSTER_HOME and copy dagster instance there
+
+ENV DAGSTER_HOME=/opt/dagster/dagster_home
+ENV DAGSTER_REPO_FILE=repo.py
+
+RUN mkdir -p $DAGSTER_HOME
+
+COPY dagster.yaml $DAGSTER_HOME
+
+# Add repository code
+
+WORKDIR /opt/dagster/app
+
+COPY ${DAGSTER_REPO_FILE} /opt/dagster/app
+
+# Run dagster gRPC server on port 4000
+
+EXPOSE 4000
+
+# CMD allows this to be overridden from run launchers or executors that want
+# to run other commands against your repository
+# CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-f", "${DAGSTER_REPO_FILE}"]
+CMD ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p 4000 -f ${DAGSTER_REPO_FILE}"]
