@@ -13,8 +13,8 @@ RUN pip install \
 # Set $DAGSTER_HOME and copy dagster instance and workspace YAML there
 ENV DAGSTER_HOME=/opt/dagster/dagster_home/
 
-RUN mkdir -p $DAGSTER_HOME
+RUN mkdir -p $DAGSTER_HOME $DAGSTER_WORKSPACES
 
-COPY dagster.yaml workspace.yaml $DAGSTER_HOME
-
+COPY dagster.yaml $DAGSTER_WORKSPACES $DAGSTER_HOME 
+# workspace.yaml
 WORKDIR $DAGSTER_HOME

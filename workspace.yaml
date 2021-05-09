@@ -3,4 +3,17 @@ load_from:
   - grpc_server:
       host: docker_example_pipelines
       port: 4000
-      location_name: "example_pipelines"
+      location_name: "example_pipelines_local"
+  - grpc_server:
+      host: docker_example_pipelines_user_code
+      port: 4001
+      location_name: "example_pipelines_user_code"
+  - grpc_server:
+      host: docker_example_pipelines_from_dagster_user_code
+      port: 4002
+      location_name: "example_pipelines_from_dagster_user_code"
+
+#  - python_file:
+#      relative_path: workspaces/local_repo/repo.py
+#      location_name: local_code
+#      working_directory: ./
