@@ -26,6 +26,7 @@ COPY dagster.yaml $DAGSTER_HOME
 WORKDIR /opt/dagster/app
 
 COPY ${DAGSTER_REPO_FILE} /opt/dagster/app
+COPY git_urls.yaml /opt/dagster/app
 
 # Run dagster gRPC server on port 4000
 

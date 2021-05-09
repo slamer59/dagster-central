@@ -15,8 +15,10 @@ run_launcher:
       - DAGSTER_POSTGRES_PASSWORD
       - DAGSTER_POSTGRES_DB
     network: docker_example_network
-#    container_kwargs:
-#      volumes:
+    container_kwargs:
+      volumes:
+        "/media/thomas/DATA/Developpments/dagster-playground/dagster-central/workspaces":
+          bind: /workspaces
 #        repo.py:
 #          bind: /opt/dagster/app/
 
