@@ -11,29 +11,29 @@ services:
       POSTGRES_PASSWORD: "postgres_password"
       POSTGRES_DB: "postgres_db"
     networks:
-      - docker_example_network
+      - dagster_network
 
   # This service runs the gRPC server that loads and executes your pipelines, in both dagit
   # and dagster-daemon. By setting DAGSTER_CURRENT_IMAGE to its own image, we tell the
   # run launcher to use this same image when launching runs in a new container as well.
   # Multiple containers like this can be deployed separately - each just needs to run on
   # its own port, and have its own entry in the workspace.yaml file that's loaded by dagit.
-  docker_update_git_repo:
+  update_git_repo:
     build:
       context: ./workspaces/update_git_repo
       dockerfile: ./Dockerfile_pipelines
-    container_name: docker_update_git_repo
-    image: docker_update_git_repo_image
+    container_name: update_git_repo
+    image: update_git_repo_image
     environment:
       DAGSTER_POSTGRES_USER: "postgres_user"
       DAGSTER_POSTGRES_PASSWORD: "postgres_password"
       DAGSTER_POSTGRES_DB: "postgres_db"
-      DAGSTER_CURRENT_IMAGE: "docker_update_git_repo_image"
+      DAGSTER_CURRENT_IMAGE: "update_git_repo_image"
       DAGSTER_PWD: $PWD
     command: 
       ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p 4000 -f repo.py"]
     networks:
-      - docker_example_network
+      - dagster_network
     volumes:
       - ${PWD}/workspaces/:/workspaces/
       - /var/run/docker.sock:/var/run/docker.sock  
@@ -52,7 +52,7 @@ services:
     command: 
       ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p 4001 -f repo.py"]
     networks:
-      - docker_example_network
+      - dagster_network
   # Another docker/dagster instance
 #   docker_example_pipelines_user_code:
 #     build:
@@ -75,7 +75,7 @@ services:
 # #      - ./workspaces/dagster-user-code:/opt/dagster/dagster_home
 # #      - ./workspaces/dagster-user-code:/opt/dagster/app
 #     networks:
-#       - docker_example_network
+#       - dagster_network
 
   # Another docker/dagster instance
   docker_example_pipelines_from_dagster_user_code:
@@ -93,7 +93,7 @@ services:
         - ./workspaces/dagster-from-user-code:/opt/dagster/dagster_home
         - ./workspaces/dagster-from-user-code:/opt/dagster/app
       networks:
-        - docker_example_network
+        - dagster_network
 
   # This service runs dagit, which loads the pipelines from the user code container.
   # Since our instance uses the QueuedRunCoordinator, any runs submitted from dagit will be put on
@@ -125,7 +125,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PWD}/workspace.yaml:${DAGSTER_HOME}/workspace.yaml
     networks:
-      - docker_example_network
+      - dagster_network
     depends_on:
       - docker_example_postgresql
       - docker_example_pipelines
@@ -152,12 +152,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PWD}/workspace.yaml:${DAGSTER_HOME}/workspace.yaml
     networks:
-      - docker_example_network
+      - dagster_network
     depends_on:
       - docker_example_postgresql
       - docker_example_pipelines
 
 networks:
-  docker_example_network:
+  dagster_network:
     driver: bridge
-    name: docker_example_network
+    name: dagster_network

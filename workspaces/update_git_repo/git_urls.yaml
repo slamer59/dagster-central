@@ -1,4 +1,4 @@
 solids:
   check_git_status:
     config:
-      urls: ["https://github.com/slamer59/dagster-user-code", "https://fake.git"]
+      urls: ["https://github.com/slamer59/dagster-user-code", "https://fake.git", "https://github.com/slamer59/dagster-another-user-code.git"]

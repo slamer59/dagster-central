@@ -29,6 +29,17 @@ import docker
 
 
 def get_repo_name_from_url(url: str) -> str:
+    """get_repo_name_from_url
+
+    Args:
+        url (str): [description]
+
+    Raises:
+        Exception: [description]
+
+    Returns:
+        str: [description]
+    """
     last_slash_index = url.rfind("/")
     last_suffix_index = url.rfind(".git")
     if last_suffix_index < 0:
@@ -40,11 +51,15 @@ def get_repo_name_from_url(url: str) -> str:
     return url[last_slash_index + 1 : last_suffix_index]
 
 
+def get_current_repo_name():
+    return "update_git_repo"  #
+
+
 # https://docs.dagster.io/tutorial/intro-tutorial/configuring-solids
 @solid(config_schema={"urls": list})
 def check_git_status(context):
     # https://www.devdungeon.com/content/working-git-repositories-python
-    list_of_repo = []
+    list_of_repo = [get_current_repo_name()]
     # Check out via HTTPS
     for repo_url in context.solid_config["urls"]:
         try:
@@ -72,7 +87,6 @@ def check_git_status(context):
 def create_docker_images(context, list_of_repo):
     # https://docs.docker.com/engine/api/sdk/examples/
 
-    import os
     import glob
 
     client = docker.from_env()
@@ -84,7 +98,7 @@ def create_docker_images(context, list_of_repo):
                 build_opts = {
                     "path": repo,
                     "dockerfile": dockerfile,
-                    "tag": repo.split("/")[-1] + ":auto",
+                    "tag": repo.split("/")[-1] + ":latest",
                 }
                 context.log.info("Build options: ")
                 for k, v in build_opts.items():
@@ -126,7 +140,7 @@ def create_workspace(context, list_of_repo):
         conf = {
             "host": val.split("/")[-1],
             "port": 4000 + idx,
-            "location_name": val.split("/")[-1].replace("-", "_"),
+            "location_name": val.split("/")[-1],  # .replace("-", "_"),
         }
         list_configs.append({"grpc_server": conf})
         for k, v in conf.items():
@@ -137,11 +151,11 @@ def create_workspace(context, list_of_repo):
     with open(wk_new_filename, "w") as yml:
         yaml.dump(config, yml)
 
-    return True
+    return list_configs
 
 
 @solid
-def restart_dagit(context,_):
+def restart_dagit(context, _):
     client = docker.from_env()
     wk_filename = "/workspace.yaml"
     wk_new_filename = "/workspaces/workspace-new.yaml"
@@ -156,6 +170,33 @@ def restart_dagit(context,_):
             client.api.start(name)
     return True
 
+# https://github.com/dagster-io/dagster/blob/a57196c29d87e984ddd44c1ba9df06c012576c94/python_modules/libraries/dagster-celery-docker/dagster_celery_docker/executor.py#L281
+@solid
+def start_pipeline_containers(context, list_configs):
+    client = docker.from_env()
+    context.log.info("Add containers - host port location")
+    for conf in list_configs:
+        host, port, location_name = conf["grpc_server"].values()
+
+        # Don't touch running docker
+        if host != "update_git_repo":
+            context.log.info(" %s %s %s" % (host, port, location_name))
+            client.containers.run(
+                host,
+                ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p %s -f repo.py" % port],
+                detach=True,
+                ports={port: port},
+                auto_remove=True,
+                # publish_all_ports=True,
+                volumes={
+                    os.environ["DAGSTER_PWD"]
+                    + "/workspaces/%s" % host: {"bind": "/opt/dagster/app"}
+                },
+                network="dagster_network",
+                name=host
+            )
+    return
+
 
 @pipeline(
     preset_defs=[PresetDefinition.from_files("dev", config_files=["git_urls.yaml"],)]
@@ -163,8 +204,9 @@ def restart_dagit(context,_):
 def update_git_repo_pipeline():
     git_status = check_git_status()
     create_docker_images(git_status)
-    restart_dagit(create_workspace(git_status))
-
+    list_configs = create_workspace(git_status)
+    restart_dagit(list_configs)
+    start_pipeline_containers(list_configs)
 
 
 @schedule(
