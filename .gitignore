@@ -72,3 +72,5 @@ target/
 # Keep local_repo for example
 !workspaces/local_repo
 !workspaces/update_git_repo
+workspace-*.yaml
+

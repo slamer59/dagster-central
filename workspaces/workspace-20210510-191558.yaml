@@ -1,5 +1,0 @@
-load_from:
-- grpc_server:
-    host: update_git_repo
-    location_name: update_git_repo
-    port: 4000

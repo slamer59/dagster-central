@@ -174,13 +174,22 @@ def restart_dagit(context, _):
 @solid
 def start_pipeline_containers(context, list_configs):
     client = docker.from_env()
+
+    running_containers = {cont.name: cont for cont in client.containers.list()}
     context.log.info("Add containers - host port location")
     for conf in list_configs:
         host, port, location_name = conf["grpc_server"].values()
 
+
+
         # Don't touch running docker
         if host != "update_git_repo":
-            context.log.info(" %s %s %s" % (host, port, location_name))
+            if host in running_containers.keys():
+                context.log.info("Stoping %s " % host)
+                running_containers[host].stop()
+
+
+            context.log.info("Start: %s %s %s" % (host, port, location_name))
             client.containers.run(
                 host,
                 ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p %s -f repo.py" % port],
