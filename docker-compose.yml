@@ -56,21 +56,21 @@ services:
   # Another docker/dagster instance
 #   docker_example_pipelines_user_code:
 #     build:
-#       context: ./workspaces/dagster-user-code/
+#       context7: ./workspaces/dagster-user-code/
 #       args:
 #         - "DAGSTER_HOME=/opt/dagster/dagster_home"
 #         - "DAGSTER_REPO_FILE=repo.py"
 #       dockerfile: ./Dockerfile_pipelines
-#     container_name: docker_example_pipelines_user_code
-#     image: docker_example_pipelines_image_1
+#     container_name: docker_example_pipelines_user_code # dagster-user-code
+#     image: docker_example_pipelines_image_1 # dagster-user-code
 #     environment:
 #       DAGSTER_POSTGRES_USER: "postgres_user"
 #       DAGSTER_POSTGRES_PASSWORD: "postgres_password"
 #       DAGSTER_POSTGRES_DB: "postgres_db"
-#       DAGSTER_CURRENT_IMAGE: "docker_example_pipelines_image_1"
+#       DAGSTER_CURRENT_IMAGE: "docker_example_pipelines_image_1" # dagster-user-code
 #       DAGSTER_PWD: $PWD
 #     command: 
-#       ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p 4002 -f repo.py"]
+#       ["sh", "-c", "dagster api grpc -h 0.0.0.0 -p 4003 -f repo.py"]
 # #    volumes:
 # #      - ./workspaces/dagster-user-code:/opt/dagster/dagster_home
 # #      - ./workspaces/dagster-user-code:/opt/dagster/app

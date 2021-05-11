@@ -179,9 +179,6 @@ def start_pipeline_containers(context, list_configs):
     context.log.info("Add containers - host port location")
     for conf in list_configs:
         host, port, location_name = conf["grpc_server"].values()
-
-
-
         # Don't touch running docker
         if host != "update_git_repo":
             if host in running_containers.keys():
@@ -196,6 +193,7 @@ def start_pipeline_containers(context, list_configs):
                 detach=True,
                 ports={port: port},
                 auto_remove=True,
+                environment=['%s=%s'% (k,v) for k,v in os.environ.items() if 'DAGSTER' in k] + ["DAGSTER_CURRENT_IMAGE=%s" % host],
                 # publish_all_ports=True,
                 volumes={
                     os.environ["DAGSTER_PWD"]

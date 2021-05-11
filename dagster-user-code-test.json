@@ -1,0 +1,221 @@
+{
+    "Id": "a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6",
+    "Created": "2021-05-11T12:09:09.628056446Z",
+    "Path": "sh",
+    "Args": [
+        "-c",
+        "dagster api grpc -h 0.0.0.0 -p 4001 -f repo.py"
+    ],
+    "State": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 69887,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2021-05-11T12:09:10.622585356Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "Image": "sha256:0de9955f466041bff022b1d0dad9426fa647d1c4adca4863cf2d2a9912fc444b",
+    "ResolvConfPath": "/var/lib/docker/containers/a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6/resolv.conf",
+    "HostnamePath": "/var/lib/docker/containers/a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6/hostname",
+    "HostsPath": "/var/lib/docker/containers/a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6/hosts",
+    "LogPath": "/var/lib/docker/containers/a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6/a7d0b788409064309887679908c5482488cd3c5bf2907c49a93d33ebf74486d6-json.log",
+    "Name": "/dagster-user-code",
+    "RestartCount": 0,
+    "Driver": "overlay2",
+    "Platform": "linux",
+    "MountLabel": "",
+    "ProcessLabel": "",
+    "AppArmorProfile": "docker-default",
+    "ExecIDs": null,
+    "HostConfig": {
+        "Binds": null,
+        "ContainerIDFile": "",
+        "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+        },
+        "NetworkMode": "dagster_network",
+        "PortBindings": {
+            "4001/tcp": [{
+                "HostIp": "",
+                "HostPort": "4001"
+            }]
+        },
+        "RestartPolicy": {
+            "Name": "",
+            "MaximumRetryCount": 0
+        },
+        "AutoRemove": false,
+        "VolumeDriver": "",
+        "VolumesFrom": null,
+        "CapAdd": null,
+        "CapDrop": null,
+        "Dns": null,
+        "DnsOptions": null,
+        "DnsSearch": null,
+        "ExtraHosts": null,
+        "GroupAdd": null,
+        "IpcMode": "shareable",
+        "Cgroup": "",
+        "Links": null,
+        "OomScoreAdj": 0,
+        "PidMode": "",
+        "Privileged": false,
+        "PublishAllPorts": false,
+        "ReadonlyRootfs": false,
+        "SecurityOpt": null,
+        "UTSMode": "",
+        "UsernsMode": "",
+        "ShmSize": 67108864,
+        "Runtime": "runc",
+        "ConsoleSize": [
+            0,
+            0
+        ],
+        "Isolation": "",
+        "CpuShares": 0,
+        "Memory": 0,
+        "NanoCpus": 0,
+        "CgroupParent": "",
+        "BlkioWeight": 0,
+        "BlkioWeightDevice": null,
+        "BlkioDeviceReadBps": null,
+        "BlkioDeviceWriteBps": null,
+        "BlkioDeviceReadIOps": null,
+        "BlkioDeviceWriteIOps": null,
+        "CpuPeriod": 0,
+        "CpuQuota": 0,
+        "CpuRealtimePeriod": 0,
+        "CpuRealtimeRuntime": 0,
+        "CpusetCpus": "",
+        "CpusetMems": "",
+        "Devices": null,
+        "DeviceCgroupRules": null,
+        "DiskQuota": 0,
+        "KernelMemory": 0,
+        "MemoryReservation": 0,
+        "MemorySwap": 0,
+        "MemorySwappiness": null,
+        "OomKillDisable": false,
+        "PidsLimit": 0,
+        "Ulimits": null,
+        "CpuCount": 0,
+        "CpuPercent": 0,
+        "IOMaximumIOps": 0,
+        "IOMaximumBandwidth": 0,
+        "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/sys/firmware"
+        ],
+        "ReadonlyPaths": [
+            "/proc/asound",
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+        ]
+    },
+    "GraphDriver": {
+        "Data": {
+            "LowerDir": "/var/lib/docker/overlay2/639cebd4ecedb5178fd838d981fc8ad428f222366accc99e75d91ed4e07c5690-init/diff:/var/lib/docker/overlay2/9996ce5aca3b2c8f252013d520b5b17257ba9ce1619547b28085f3398eb4a918/diff:/var/lib/docker/overlay2/b56bff6ba8ccb95b03a7f981312a4b8483708f6ab82d2aa215567d0203626a9c/diff:/var/lib/docker/overlay2/c755fe00b4dacfc455f2ddcea35d3d7422229a4629b458763bf49706b7e3c2a9/diff:/var/lib/docker/overlay2/023b61c2114c173a77e21f1d14769953585377ddfa428a828e486c0f43dc2bc2/diff:/var/lib/docker/overlay2/ca053a373f67b52fb16d94c50beabbdf75e657bd8e3f30541bfff8259bd2f00a/diff:/var/lib/docker/overlay2/6f992a78c375bc67a958cfad0cd7f36275a452fb2f9573f349cdc627f64d05c8/diff:/var/lib/docker/overlay2/df49e77c594dd6fe84bf1a78fa07a8d07023373f7776150c5aafd10cbf35592d/diff:/var/lib/docker/overlay2/210709c61d0d2d8a46c88b5a8faf80ee64e353c74aed1e3fc0b20c6e1d3fea74/diff:/var/lib/docker/overlay2/af255600f78ab40569039e877b868401ebf80a5947a82c5b45f3aa4517c75ccf/diff:/var/lib/docker/overlay2/f22b0be57a764babe7f2ca27206e7bf3586e0c7eb35f065b5767ba04fa3f8ec6/diff",
+            "MergedDir": "/var/lib/docker/overlay2/639cebd4ecedb5178fd838d981fc8ad428f222366accc99e75d91ed4e07c5690/merged",
+            "UpperDir": "/var/lib/docker/overlay2/639cebd4ecedb5178fd838d981fc8ad428f222366accc99e75d91ed4e07c5690/diff",
+            "WorkDir": "/var/lib/docker/overlay2/639cebd4ecedb5178fd838d981fc8ad428f222366accc99e75d91ed4e07c5690/work"
+        },
+        "Name": "overlay2"
+    },
+    "Mounts": [],
+    "Config": {
+        "Hostname": "a7d0b7884090",
+        "Domainname": "",
+        "User": "",
+        "AttachStdin": false,
+        "AttachStdout": false,
+        "AttachStderr": false,
+        "ExposedPorts": {
+            "4001/tcp": {}
+        },
+        "Tty": false,
+        "OpenStdin": false,
+        "StdinOnce": false,
+        "Env": [
+            "DAGSTER_CURRENT_IMAGE=dagster-user-code",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D",
+            "PYTHON_VERSION=3.7.10",
+            "PYTHON_PIP_VERSION=21.1.1",
+            "PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/1954f15b3f102ace496a34a013ea76b061535bd2/public/get-pip.py",
+            "PYTHON_GET_PIP_SHA256=f499d76e0149a673fb8246d88e116db589afbd291739bd84f2cd9a7bca7b6993",
+            "DAGSTER_HOME=/opt/dagster/dagster_home"
+        ],
+        "Cmd": [
+            "sh",
+            "-c",
+            "dagster api grpc -h 0.0.0.0 -p 4001 -f repo.py"
+        ],
+        "Image": "dagster-user-code",
+        "Volumes": null,
+        "WorkingDir": "/opt/dagster/app",
+        "Entrypoint": null,
+        "OnBuild": null,
+        "Labels": {}
+    },
+    "NetworkSettings": {
+        "Bridge": "",
+        "SandboxID": "8333062bcb394a9d304546fb54931ae9680bfe646633b9cd151a81e5d7efa6ea",
+        "HairpinMode": false,
+        "LinkLocalIPv6Address": "",
+        "LinkLocalIPv6PrefixLen": 0,
+        "Ports": {
+            "4001/tcp": [{
+                "HostIp": "0.0.0.0",
+                "HostPort": "4001"
+            }]
+        },
+        "SandboxKey": "/var/run/docker/netns/8333062bcb39",
+        "SecondaryIPAddresses": null,
+        "SecondaryIPv6Addresses": null,
+        "EndpointID": "",
+        "Gateway": "",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "IPAddress": "",
+        "IPPrefixLen": 0,
+        "IPv6Gateway": "",
+        "MacAddress": "",
+        "Networks": {
+            "dagster_network": {
+                "IPAMConfig": null,
+                "Links": null,
+                "Aliases": [
+                    "a7d0b7884090"
+                ],
+                "NetworkID": "251337fb9de4a3e245ef7e2be40292810f7da32e072653c6b56d56247497dc7c",
+                "EndpointID": "da1131d082377a5ac92bf9e8ef17d262a4ee0e934177f80647400d37a14b082e",
+                "Gateway": "172.26.0.1",
+                "IPAddress": "172.26.0.8",
+                "IPPrefixLen": 16,
+                "IPv6Gateway": "",
+                "GlobalIPv6Address": "",
+                "GlobalIPv6PrefixLen": 0,
+                "MacAddress": "02:42:ac:1a:00:08",
+                "DriverOpts": null
+            }
+        }
+    },
+    "CreatedTime": 1620734949628
+}
